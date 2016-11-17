@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<ui:composition 
+      template="/layout.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="titulo">Menu Principal</ui:define>
+    <ui:define name="corpo">
+        <h:body>
+        <h:form id="formNovo">
+            <p:commandButton value="Novo Produto" id="novo" 
+                             update=":formCadastro:painel" 
+                             actionListener="#{produtoController.novo}"
+                             oncomplete="dialogCadastrarProduto.show()"
+                             style="margin-left: 5%"/>
+
+            <p:commandButton rendered="true" id="exportar1" value="Relatório de Tipo de Produto" ajax="false">
+                <p:fileDownload value="#{produtoController.gerarRelatorio()}" />
+                </p:commandButton>
+            
+            <p:commandButton rendered="true" id="exportar2" value="Relatório de Produto" ajax="false">	
+                             <p:fileDownload value="#{produtoController.gerarRelatorioProduto()}"/> 
+            </p:commandButton>
+            
+            <p:commandButton rendered="true" id="exportar3" value="Gráfico Produto" ajax="false">
+                <p:fileDownload value="#{produtoController.gerarGraficoProduto()}"/> 
+            </p:commandButton>
+               
+        </h:form>
+        <br/>
+        <h:form id="formTabela">
+            <p:dataTable id="tabela" value="#{produtoController.produtoList}" 
+                         var="produto"   emptyMessage="Nenhum registro" 
+                         paginator="true" rows="5" paginatorPosition="bottom" 
+                         style="width: 90%; margin-left: 5%"> 
+                <f:facet name="header"> Produtos cadastrados</f:facet> 
+                <p:column width="100"> 
+                    <f:facet name="header">Codigo</f:facet> 
+                    <h:outputText value="#{produto.codigo}" /> 
+                </p:column> 
+                <p:column width="400"> 
+                    <f:facet name="header">Descrição</f:facet> 
+                    <h:outputText value="#{produto.descricao}" /> 
+                </p:column> 
+                <p:column width="180"> 
+                    <f:facet name="header">Preço</f:facet> 
+                    <h:outputText value="#{produto.preco}" /> 
+                </p:column> 
+                <p:column width="180"> 
+                    <f:facet name="header">Quantidade</f:facet> 
+                    <h:outputText value="#{produto.quantidade}" /> 
+                </p:column> 
+                <p:column width="200"> 
+                    <f:facet name="header">Ação</f:facet> 
+
+                    <p:commandButton id="btnUpload" 
+                                     oncomplete="dialogUploadImagens.show()" icon="ui-icon-circle-arrow-n">
+                        <f:setPropertyActionListener 
+                            target="#{produtoController.produto}" value="#{produto}"/>  
+                    </p:commandButton>
+
+
+
+                    <p:commandButton id="btnImagens" icon="ui-icon-image" actionListener="#{produtoController.visualizarImagem}"
+                                     oncomplete="visualizarImagens.show()" update=":imagens">
+                        <f:setPropertyActionListener 
+                            target="#{produtoController.produto}" value="#{produto}"/>  
+                    </p:commandButton>
+
+
+
+                    <p:commandButton actionListener="#{produtoController.inicioAlterarProduto}"
+                                     update=":formCadastro:painel"
+                                     oncomplete="dialogCadastrarProduto.show()"
+                                     icon="ui-icon-pencil">  
+                        <f:setPropertyActionListener 
+                            target="#{produtoController.produto}" value="#{produto}"/>  
+                    </p:commandButton> 
+
+                    <p:commandButton actionListener="#{produtoController.excluirProduto}"
+                                     update="tabela" icon="ui-icon-trash">  
+                        <p:confirm header="Confirmation" message="Deseja excluir o registro?" 
+                                   icon="ui-icon-alert" />
+                        <f:setPropertyActionListener target="#{produtoController.produto}" 
+                                                     value="#{produto}"/>  
+                    </p:commandButton> 
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Sim" type="button" styleClass="ui-confirmdialog-yes" 
+                                         icon="ui-icon-check" />
+                        <p:commandButton value="Não" type="button" styleClass="ui-confirmdialog-no" 
+                                         icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </p:column> 
+            </p:dataTable> 
+        </h:form>
+
+        <p:dialog header="Upload Imagens" widgetVar="dialogUploadImagens"  resizable="false" modal="true">
+            <h:form id="upload"  enctype="multipart/form-data">
+                <p:fileUpload mode="advanced" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                              fileUploadListener="#{produtoController.doUpload}" oncomplete="dialogUploadImagens.hide()">
+                </p:fileUpload>
+            </h:form>
+        </p:dialog>
+
+
+
+        <p:dialog header="Ver Imagens" widgetVar="visualizarImagens"  resizable="false" modal="true" >
+            <h:form id="imagens"  enctype="multipart/form-data">
+                <p:galleria value="#{produtoController.images}" var="image" panelWidth="500" panelHeight="313" >
+                    <p:graphicImage value="resources/imagens/#{produtoController.produto.codigo}/#{image}" />
+                </p:galleria>
+            </h:form>
+        </p:dialog>
+
+
+        <p:dialog header="Cadastrar Produto" 
+                  widgetVar="dialogCadastrarProduto"  
+                  resizable="false" modal="true" >
+            <h:form  id="formCadastro">
+
+
+                <p:messages showDetail="false" showSummary="true" autoUpdate="true" /> 
+                <h:panelGrid id ="painel" columns="2">
+                    Descrição
+                    <p:inputText id="descricao" 
+                                 value="#{produtoController.produto.descricao}" 
+                                 size="50"/>
+                    Preço 
+                    <p:inputText value="#{produtoController.produto.preco}">
+                        <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR" /> 
+                    </p:inputText>
+                    Quantidade: 
+                    <p:inputText value="#{produtoController.produto.quantidade}" />
+
+                    Data cadastro:
+                    <p:calendar id="popup" value="#{produtoController.produto.dataCadastro}" 
+                                pattern="dd/MM/yyyy"/>
+
+                    <p:outputLabel value="Tipo Produto" for="tipoproduto" />
+                    <p:selectOneMenu id="tipoproduto" value="#{produtoController.tipoProduto}" 
+                                     converter="tipoproduto" var="i"  >
+
+                        <f:selectItem itemLabel="Selecione" itemValue="" />
+                        <f:selectItems value="#{produtoController.tipos}" var="tipo"
+                                       itemLabel="#{tipo.descricao}"
+                                       itemValue="#{tipoProduto}" />
+
+
+                        <p:column>
+                            <h:outputText value="#{i.descricao}" />
+                        </p:column>
+                    </p:selectOneMenu>
+                    <br/>
+                    <p:commandButton id="gravar" update=":formTabela:tabela" 
+                                     actionListener="#{produtoController.gravar}" 
+                                     value="Gravar" rendered="#{(produtoController.produto.codigo == 0)}"/>
+                    <p:commandButton id="alterar" update=":formTabela:tabela" 
+                                     actionListener="#{produtoController.fimAlterarProduto}" 
+                                     value="Alterar" rendered="#{(produtoController.produto.codigo != 0)}"/>
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+    </h:body>
+    </ui:define>
+</ui:composition>

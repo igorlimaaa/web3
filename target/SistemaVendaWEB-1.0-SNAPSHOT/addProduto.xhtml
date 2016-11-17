@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <div>TODO write content</div>
+         <h:form>
+            <h:messages/>
+
+
+            <h:outputLabel value="Cadastro"/>
+            <br/>
+            <br/>
+            <h:panelGrid columns="2">
+                codigo 
+                <h:inputText value="#{produtoController.produto.codigo}" 
+                             required="True" 
+                             requiredMessage="Campo código obrigatório"/>
+
+                Descrição 
+                <h:inputText value="#{produtoController.produto.descricao}" 
+                             required="True" 
+                             requiredMessage="Campo descrição obrigatório"/>
+
+                Preço 
+                <h:inputText value="#{produtoController.produto.preco}">
+                    <f:convertNumber minFractionDigits="2" maxFractionDigits="2" locale="pt_BR" /> 
+                </h:inputText>
+
+                Quantidade: <h:inputText value="#{produtoController.produto.quantidade}" />
+
+                Data cadastro: 
+                <h:inputText value="#{produtoController.produto.dataCadastro}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" 
+                                       timeZone="America/Sao_Paulo" />
+                </h:inputText>
+
+              
+
+
+
+            </h:panelGrid>
+            <br/>
+            <h:commandButton value="Gravar" action="#{produtoController.gravar()}"/>
+
+            <h:commandButton value="Voltar" action="produtos" immediate="true"/>
+        </h:form>
+    </body>
+</html>

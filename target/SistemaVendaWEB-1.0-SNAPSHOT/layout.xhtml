@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>
+            <ui:insert name="Título"/>
+        </title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:menubar style="width: 90%; margin-left: 5%">
+                <p:submenu label="Cadastro" icon="ui-icon-document">
+                    <p:menuitem value="Produto" url="produtos.xhtml"/>
+                </p:submenu>
+                <p:submenu icon="ui-icon-document" label="Movimento">
+                    <p:menuitem value="Vendas" url="vendas.xhtml"/>
+                </p:submenu>
+                <p:submenu label="Sistema">
+                    <p:menuitem value="Sair" action="#{usuarioController.logout}"/>
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+        <br/>
+        <br/>
+        <div id="conteudo" style="width: 90%">
+            <header>
+                <b>
+                    <div style="float: rigth; margin-left: 6%; margin-top: 8px"> Olá #{usuario.login}! </div>
+                </b>
+            </header>
+            <ui:insert name="corpo" />
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <footer style="margin-left: 5%"> <b>Sistema de Vendas - Fuctura</b></footer>
+    </h:body>
+</html>

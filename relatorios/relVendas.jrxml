@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relVendas" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4f8deef7-c977-46d6-b9c5-71e98ed0d4ca">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="nomeSistema" class="java.lang.String"/>
+	<parameter name="logo" class="java.lang.String"/>
+	<parameter name="relSub" class="java.lang.Object"/>
+	<parameter name="subNomeRelatorio" class="java.lang.String"/>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="dataVenda" class="java.util.Date"/>
+	<field name="total" class="java.lang.Double"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="123" splitType="Stretch">
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="21" y="10" width="100" height="20" uuid="4da1a19b-a9ba-4249-8269-dcfb81eb8ff3"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="237" y="10" width="100" height="20" uuid="b32cc82e-9631-47b6-b8f8-8e1f6df0ace4"/>
+				<textFieldExpression><![CDATA[$P{nomeSistema}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="429" y="10" width="80" height="20" uuid="d8abee0b-9e82-4d4c-970e-3b30ca39f38a"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="509" y="10" width="41" height="20" uuid="589333cd-1f70-4bbd-8490-844f9a15dc7f"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="237" y="60" width="100" height="20" uuid="63d5495b-7cc8-490a-b656-b8ffa39d50f4"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Vendas]]></text>
+			</staticText>
+			<image>
+				<reportElement x="21" y="46" width="108" height="64" uuid="3b344040-5718-4d58-ac90-3c2e82a4672a"/>
+				<imageExpression><![CDATA[$P{logo}]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="a442e1bf-df96-4151-852a-597565a6a9e5"/>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="182" y="2" width="100" height="20" uuid="34771a78-44ed-4a49-a7c4-ccc227a3dc4d"/>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="361" y="2" width="100" height="20" uuid="2fe93149-b32e-42e8-9beb-5d0cb80063ff"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="29" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="9efc83da-865d-44be-afba-a1918c18f42c"/>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="182" y="2" width="100" height="20" uuid="0ad16f34-1229-4c6f-b217-859186b0241f"/>
+				<textFieldExpression><![CDATA[$F{dataVenda}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="361" y="2" width="100" height="20" uuid="c6b56e8d-ed7d-49c3-bc00-13975cfde6c3"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="12" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="9" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="125" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="14" width="555" height="100" uuid="3ecc1aa4-0e2b-4f17-95fc-5e58bfe98640"/>
+				<dataSourceExpression><![CDATA[$P{relSub}]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{subNomeRelatorio}]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

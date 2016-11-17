@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="relItensVenda" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a2fd4a50-277a-4b8e-85de-ba37f2d213f0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<field name="quantidade" class="java.lang.Integer"/>
+	<field name="produto.descricao" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="8e9a33bb-fa74-472e-9fe2-2937a9f9b184"/>
+				<text><![CDATA[Produto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="243" y="2" width="100" height="20" uuid="1f8cee2f-620c-490d-a166-9934d4912380"/>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="203" height="20" uuid="f8f3ed59-f4a1-4173-b7ea-d3942f1968b6"/>
+				<textFieldExpression><![CDATA[$F{produto.descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="243" y="0" width="100" height="20" uuid="47a8d8f3-c10f-4638-aacc-6ea8fa23c61f"/>
+				<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

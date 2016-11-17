@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<ui:composition 
+      template="/layout.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:define name="titulo">Menu Principal</ui:define>
+    <ui:define name="corpo">
+         <h:body>
+        <h:form id="formNovo">
+            <p:commandButton value="Nova venda" id="novo" 
+                             update=":formCadastro:painel" 
+                             actionListener="#{vendaController.novo}"  
+                             oncomplete="dialogCadastrarVenda.show()"
+                             style="margin-left: 6%"/>
+           
+           
+
+        </h:form>
+        <br/>
+
+
+        <h:form id="formTabela" >
+             <h:panelGrid columns="2" style="margin-left: 5.5%" cellpadding="5">
+                 <p:outputLabel for="tipoRel" value="Tipo Relatório" style="margin-left: 5%"/>
+                <p:selectOneRadio id="tipoRel" value="#{vendaController.tipoRel}">
+                    <f:selectItem itemLabel="PDF" itemValue="PDF" />
+                    <f:selectItem itemLabel="XLS" itemValue="XLS" />
+                </p:selectOneRadio>
+            </h:panelGrid>
+            <p:dataTable id="tabela" var="venda" 
+                         value="#{vendaController.vendaList}" 
+                         emptyMessage="Nenhum registro" 
+                         paginator="true" rows="10" paginatorPosition="bottom"
+                         style="margin-left: 5%; width: 90%">  
+                <f:facet name="header"> Vendas</f:facet> 
+
+                <p:column> 
+                    <f:facet name="header">Cliente</f:facet> 
+                    <h:outputText value="#{venda.cliente}" /> 
+                </p:column> 
+
+                <p:column> 
+                    <f:facet name="header">Data</f:facet> 
+                    <h:outputText value="#{venda.dataVenda}" /> 
+                </p:column>  
+
+                <p:column> 
+                    <f:facet name="header">Total</f:facet> 
+                    <h:outputText value="#{venda.total}" /> 
+                </p:column> 
+
+                <p:column width="200"> 
+                    <f:facet name="header">Ação</f:facet> 
+                    <h:commandButton					
+                        value="Relatório Vendas"	
+                        action="#{vendaController.gerarRelatorio()}">
+                        <f:setPropertyActionListener 
+                            target="#{vendaController.venda}" value="#{venda}"/>  
+                    </h:commandButton>  
+                </p:column> 
+            </p:dataTable> 
+            <hr/>      
+        </h:form>
+
+
+        <p:dialog header="Realizar venda" widgetVar="dialogCadastrarVenda"  resizable="false" modal="true">
+            <h:form  id="formCadastro">
+                <p:messages showDetail="false" showSummary="true" autoUpdate="true" /> 
+                <h:panelGrid id ="painel" columns="2">
+
+
+                    Cliente
+                    <p:inputText id="cliente"
+                                 value="#{vendaController.venda.cliente}"
+                                 size="40"/>
+
+                    <p:outputLabel value="Produto" for="produto" />
+                    <p:selectOneMenu id="produto" value="#{vendaController.produto}" 
+                                     required="true"
+                                     requiredMessage="Selecione um produto"
+                                     converter="produto" var="i" filter="true" 
+                                     filterMatchMode="startsWith" >
+
+                        <f:selectItem itemLabel="Selecione" itemValue="" />
+                        <f:selectItems value="#{vendaController.produtos}" var="produto"
+                                       itemLabel="#{produto.descricao}"
+                                       itemValue="#{produto}" />
+
+
+                        <p:column>
+                            <h:outputText value="#{i.descricao}" />
+                        </p:column>
+                    </p:selectOneMenu>
+
+                    Quantidade
+                    <p:inputText id="quantidade" value="#{vendaController.itensVenda.quantidade}" />
+                </h:panelGrid>
+                <br/>
+                <br/>
+
+
+                <p:dataTable id="tabProduto" var="iv" value="#{vendaController.carrinho}" 
+                             emptyMessage="Nenhum registro"> 
+
+
+                    <p:column> 
+                        <f:facet name="header">Produto</f:facet> 
+                        <h:outputText value="#{iv.produto.descricao}" /> 
+                    </p:column> 
+                    <p:column> 
+                        <f:facet name="header">Quantidade</f:facet> 
+                        <h:outputText value="#{iv.quantidade}" /> 
+                    </p:column> 
+
+
+                </p:dataTable> 
+                <br/>
+                <p:commandButton update="tabProduto, gravar" 
+                                 actionListener="#{vendaController.adicionarProdutos()}" 
+                                 value="Adicionar produto" />
+
+                <hr/>
+                <br/>
+                <p:commandButton id="gravar" update=":formTabela:tabela" 
+                                 actionListener="#{vendaController.gravar}" 
+                                 value="Gravar" 
+                                 disabled="#{vendaController.desabilitar}" />
+
+            </h:form>
+        </p:dialog>
+    </h:body>
+    </ui:define>
+</ui:composition>

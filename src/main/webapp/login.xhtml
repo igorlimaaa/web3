@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="resources/css/estilos.css"/>
+        <title>Tela de Login</title>
+    </h:head>
+    <h:body style="background-image: url(comic.jpg); background-size: 100%">
+        <!--<img src="mesa1.jpg" id="gambiarra" alt=""/>-->
+        <!--<h:graphicImage library="imagens" name="mesa1.png" width="80%" height="80%" />-->
+        <p:commandButton value="Realizar o Login" oncomplete="dlgNovo.show();" image="icon-add" style="margin-left: 43%"/>      
+        <!-- Formulário para inserir Usuário e Senha -->
+        <h:form id="formUsuario">
+            <p:dialog header="Realizar o Login" widgetVar="dlgNovo" resizable="false" id="dlgNovo"  
+                      showEffect="fade" hideEffect="explode" modal="true" style="">  
+                <p:growl id="growl" showDetail="true" sticky="true" />   
+                <h:panelGrid id="pgNovo" columns="2" cellpadding="4" style="margin:0 auto;">  
+                    <h:outputText value="Usuário:" />  
+                    <p:inputText value="#{usuarioController.usuario.login}"/>
+                    <h:outputText value="Senha:" />  
+                    <p:password value="#{usuarioController.usuario.senha}"/>
+                </h:panelGrid>
+                <p:separator />
+                <p:commandButton value="Logar" action="#{usuarioController.fazerLogin()}"/>
+            </p:dialog> 
+        </h:form>
+    </h:body>
+</html>

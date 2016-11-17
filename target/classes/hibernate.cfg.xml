@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.dialect">org.hibernate.dialect.DerbyDialect</property>
+        <property name="hibernate.connection.driver_class">org.apache.derby.jdbc.ClientDriver</property>
+        <property name="hibernate.connection.url">jdbc:derby://localhost:1527/webvendas</property>
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">postgres</property>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.format_sql">true</property>
+ 
+        <mapping class="br.com.fuctura.model.Produto"/>
+        <mapping class="br.com.fuctura.model.TipoProduto"/>
+        <mapping class="br.com.fuctura.model.Venda"/>
+        <mapping class="br.com.fuctura.model.ItensVenda"/>
+        <mapping class="br.com.fuctura.model.Usuario"/>
+        <mapping class="br.com.fuctura.auditoria.Revisao"/>
+ 
+    </session-factory>
+</hibernate-configuration>
